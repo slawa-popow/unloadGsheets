@@ -1,0 +1,32 @@
+{
+  "provider": "google",
+  "sub": "104006810531621519844",
+  "id": "104006810531621519844",
+  "displayName": "Kozlo Pchek",
+  "name": { "givenName": "Kozlo", "familyName": "Pchek" },
+  "given_name": "Kozlo",
+  "family_name": "Pchek",
+  "email_verified": true,
+  "verified": true,
+  "language": "ru",
+  "email": "110kwt@gmail.com",
+  "emails": [{ "value": "110kwt@gmail.com", "type": "account" }],
+  "photos": [
+    {
+      "value": "https://lh3.googleusercontent.com/a/ACg8ocInn8KnxYbyiTyXiMN6eGWxMnv6NSxoTe-Lx9Q9NqBe=s96-c",
+      "type": "default"
+    }
+  ],
+  "picture": "https://lh3.googleusercontent.com/a/ACg8ocInn8KnxYbyiTyXiMN6eGWxMnv6NSxoTe-Lx9Q9NqBe=s96-c",
+  "_raw": "{\n  \"sub\": \"104006810531621519844\",\n  \"name\": \"Kozlo Pchek\",\n  \"given_name\": \"Kozlo\",\n  \"family_name\": \"Pchek\",\n  \"picture\": \"https://lh3.googleusercontent.com/a/ACg8ocInn8KnxYbyiTyXiMN6eGWxMnv6NSxoTe-Lx9Q9NqBe\\u003ds96-c\",\n  \"email\": \"110kwt@gmail.com\",\n  \"email_verified\": true,\n  \"locale\": \"ru\"\n}",
+  "_json": {
+    "sub": "104006810531621519844",
+    "name": "Kozlo Pchek",
+    "given_name": "Kozlo",
+    "family_name": "Pchek",
+    "picture": "https://lh3.googleusercontent.com/a/ACg8ocInn8KnxYbyiTyXiMN6eGWxMnv6NSxoTe-Lx9Q9NqBe=s96-c",
+    "email": "110kwt@gmail.com",
+    "email_verified": true,
+    "locale": "ru"
+  }
+}

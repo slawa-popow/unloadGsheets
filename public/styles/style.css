@@ -1,0 +1,130 @@
+body {
+    width: 95%;
+    background-color: darkgrey;
+    margin: 0 auto;
+}
+
+.adm {
+    width: 100%;
+    min-height: 700px;
+    background-color: white;
+}
+
+.title-setting {
+    text-align: center;
+    color: rgb(97, 97, 97);
+}
+
+/* заголовок иконка название приложения */
+.title {
+    display: flex;
+    flex-flow: row wrap;
+    min-height: 50px;
+    background-color: white;
+}
+
+.logo {
+    width: 10%;
+}
+
+.piclogo img {
+    width: 50px;
+    height: 50px;
+    margin: 0 10px;
+}
+
+.company {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100px;
+    justify-content: center;
+    font-size: 0.8em;
+}
+
+.appname {
+    display: flex;
+    margin-left: 65px;
+    width: 70%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* форма входа в гугл-форму */
+
+.enterform {
+    display: flex;
+    flex-flow: column wrap;
+    max-width: 400px;
+    height: 200px;
+    background-color: whitesmoke;
+    margin: 20px auto;
+    border-radius: 10px;
+}
+
+.enterform h5 {
+    text-align: center;
+}
+
+.enterform img {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto;
+}
+
+.link-login a {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center; 
+    margin-top: 5%;
+}
+
+/* вкладка пользователи. настройка */
+.users-setting {
+    display: flex;
+    flex-flow: column wrap;
+    
+}
+
+.left-users-setting {
+    display: flex;
+    flex-flow: column wrap;
+    width: 50%;
+}
+
+.right-users-setting {
+    display: flex;
+    flex-flow: column wrap;
+    width: 50%;
+    
+}
+
+/* форма добавить админа */
+.form-add-user-area {
+    min-width: 50%;
+    padding: 15px 4px;
+    border: 1px solid rgb(155, 155, 155);
+    background-color: gainsboro;
+}
+
+.form-add-user-area .input-field {
+    margin-top: 10px;
+}
+
+/* таблица админов */
+#table-users-content {
+    max-height: 250px;
+    overflow: scroll;
+}
+
+/* форма логин/пароль МойСклад */
+.login-sklad-form {
+    padding: 15px;
+    background-color: aliceblue;
+    border: 1px solid rgb(190, 240, 255);
+    border-radius: 8px;
+}
+
+.login-sklad-form input {
+    margin-bottom: 15px;
+}

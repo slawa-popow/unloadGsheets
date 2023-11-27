@@ -1,0 +1,176 @@
+<div class="adm"> 
+
+<div class="card mb-3" style="max-width: 300px; ">
+  <div class="row">
+    <div class="col-sm-4">
+      <img style="max-width: 80px; max-height: 80px;" src="{{photos}}" class="card-img-top" alt="...">
+    </div>
+    <div class="col-sm-8">
+      <div class="card-body">
+        <p style="margin: 0; font-size: 0.8em;" class="card-title">{{userData.email}}</p>
+        <a style="padding: 0;" class="btn btn-link btn-sm" href="/logout">выход</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="nav-users-tab" data-bs-toggle="tab" data-bs-target="#nav-users" type="button" role="tab" aria-controls="nav-users" aria-selected="true">Пользователи</button>
+    <button class="nav-link" id="nav-mysklad-tab" data-bs-toggle="tab" data-bs-target="#nav-mysklad" type="button" role="tab" aria-controls="nav-mysklad" aria-selected="false">МойСклад</button>
+    <button class="nav-link" id="nav-gsheets-tab" data-bs-toggle="tab" data-bs-target="#nav-gsheets" type="button" role="tab" aria-controls="nav-gsheets" aria-selected="false">Google sheets</button>
+    <button class="nav-link" id="nav-other-tab" data-bs-toggle="tab" data-bs-target="#nav-other" type="button" role="tab" aria-controls="nav-other" aria-selected="false" >Другое</button>
+  </div>
+</nav>
+<div style="font-weight: bold; font-size: 0.8em; padding: 25px 15px;" class="tab-content" id="nav-tabContent">
+{{!-- ----------------------------- USERS SETTINGS ----------------------------------------- --}}
+
+  <div class="tab-pane fade show active" id="nav-users" role="tabpanel" aria-labelledby="nav-users-tab" tabindex="0">
+    <div class="users-setting">
+      <div class="left-users-setting">
+        <h5 class="title-setting">все пользователи:</h5>
+        <hr>
+
+
+        <div id="table-users-content" >
+          <table id="table-admins" class="table table-sm table-success table-striped">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">№</th>
+                <th scope="col">Имя</th>
+                <th scope="col">email</th>
+                <th scope="col">ico</th>
+                <th scope="col">Удалить</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each users.admins}}
+                <tr>
+                  <td>{{this.id}}</td>
+                  <td>{{this.name}}</td>
+                  <td>{{this.email}}</td>
+                  <td><img style="width: 30px; height: 30px;" src="{{this.avatar}}" alt=""></td>
+                  <td><button style="width: 100%;" id="delete-user-{{this.id}}" type="button" class="btn btn-danger">&#x2718;</button></td>
+                </tr> 
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+        <br>
+
+        {{!-- форма добавить пользователя --}}
+        <p>Добавить пользователя:</p>
+        <div class="form-add-user-area">
+          <form id="add-adimin-form">
+            <div class="input-field">
+              <input type="text" name="name" class="form-control" placeholder="имя...">
+            </div>
+            <div class="input-field">
+              <input type="email" name="email" class="form-control" placeholder="google email...">
+            </div>
+            <br>
+            <div class="d-flex justify-content-end">
+              <button id="add-user-button" type="button" class="btn btn-success ">
+                {{!-- <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> --}}
+                добавить
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      {{!-- --------------------------- --}}
+      <div class="right-users-setting">
+        <br>
+        <h5 class="title-setting">активность:</h5>
+        <hr>
+        <br>
+        <textarea style="" id="users-activity" name="users-activity" rows="10" cols="70">
+{{#each users.activity}}
+{{this.id}}.)   {{this.date}}  {{this.user}}  {{this.action}}
+{{/each}}
+        </textarea>
+      </div>
+    </div>
+  </div>
+
+{{!-- ------------------------------ MYSKLAD SETTINGS ---------------------------------------- --}}
+
+  <div class="tab-pane fade" id="nav-mysklad" role="tabpanel" aria-labelledby="nav-mysklad-tab" tabindex="0">
+    <h5 class="title-setting">подключение к серверу МойСклад:</h5>
+        <hr>
+        <p style="font-size: 1em; color: rgb(123, 123, 123); font-weight: normal;">
+          Ввиду некоторых неудобств подключения к серверу МойСклад по токену, подключения к МойСклад в этом приложении
+          осуществляется через т-н Basic Authentication (передается зашифрованный base64 методом логин/пароль в заголовке http серверу МойСклад).
+          Логины/пароли МойСклад хранятся в базе данных в зашифрованном виде (AES) и дешифруются во время запроса на сервер МойСклад и для отображения/выбора на этой странице. 
+        </p>
+
+        <div class="container mt-5">
+          <div class="row">
+            <div class="col-sm-4">
+              <h6>Добавить логин/пароль:</h6>
+
+               <div class="login-sklad-form">
+                <form id="set-login-password" >
+                  <label for="sklad_login">логин МойСклад:</label>
+                  <input id="sklad_login" placeholder="логин МойСклад" type="text" class="form-control" name="sklad_login"> 
+
+                  <label for="sklad_password">пароль МойСклад:</label>
+                  <input id="sklad_password" placeholder="пароль МойСклад" type="password" class="form-control" name="sklad_password">
+
+                  <br>
+                  <button id="add-login-password" type="button" class="btn btn-primary">добавить</button>
+                  
+                </form>
+               </div>
+
+            </div>
+            <div class="col-sm-4">
+              <h6>Выбор логина для подключений:</h6>
+
+              <div class="login-sklad-form">
+                <form id="select-login-sklad-form" >
+                  <label for="select_login">выбор логина МойСклад:</label>
+                  <select name="select_login" id="select_login" class=" form-select form-select-sm">
+{{#each mysklad.logins}}
+<option value="{{this.id}}">{{this.login}}</option>
+{{/each}}
+                  </select>
+
+                  <br>
+                  <button id="select-login-sklad-button" type="button" class="btn btn-primary">выбрать</button>
+                  
+                </form>
+               </div>
+              
+            </div>
+            <div class="col-sm-4">
+              <h6>Column 3</h6>        
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
+              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+            </div>
+          </div>
+        </div>
+
+  </div>
+
+{{!-- ---------------------------------------------------------------------- --}}
+
+  <div class="tab-pane fade" id="nav-gsheets" role="tabpanel" aria-labelledby="nav-gsheets-tab" tabindex="0">
+
+  </div>
+
+{{!-- ---------------------------------------------------------------------- --}}
+
+  <div class="tab-pane fade" id="nav-other" role="tabpanel" aria-labelledby="nav-other-tab" tabindex="0">
+
+  </div>
+
+{{!-- ---------------------------------------------------------------------- --}}
+
+</div>
+
+
+
+     
+    
+</div>
