@@ -118,8 +118,8 @@
                   <input id="sklad_password" placeholder="пароль МойСклад" type="password" class="form-control" name="sklad_password">
 
                   <br>
-                  <button id="add-login-password" type="button" class="btn btn-primary">добавить</button>
-                  
+                  <button id="add-login-password" type="button" class="btn btn-success">добавить</button>
+                  <p id="add-loginsklad-status-operation" class="status-operation"></p>
                 </form>
                </div>
 
@@ -137,17 +137,34 @@
                   </select>
 
                   <br>
-                  <button id="select-login-sklad-button" type="button" class="btn btn-primary">выбрать</button>
+                  <button style="margin: 4px 0;" id="select-login-sklad-button" type="button" class="btn btn-sm btn-success">выбрать</button>
+                  <button style="margin: 4px 0;" id="check-login-sklad-button" type="button" class="btn btn-sm btn-primary">проверить</button>
+                  <button style="margin: 4px 0;" id="delete-login-sklad-button" type="button" class="btn btn-sm btn-danger">удалить</button>
+                  <p id="select-loginsklad-status-operation"></p>
                   
                 </form>
                </div>
               
+                <div id="warning-message" class="alert alert-warning alert-dismissible fade show">
+                  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                  <strong>Внимание!</strong> После удаления логина выберите новый логин для подключений к МойСклад и нажмите "выбрать". Или добавьте логин/пароль и нажмите "выбрать".
+                </div>
+
             </div>
+
             <div class="col-sm-4">
-              <h6>Column 3</h6>        
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...</p>
+              <h6>Подключение к МойСклад:</h6>
+              <div class="login-sklad-form">
+                <div class="d-flex justify-content-center">
+                    <div id="load-data-from-sklad" class="" role="status"></div>
+                </div>
+                <label for="check_connect_sklad">URL МойСклад:</label>
+                <input id="check_connect_sklad" type="text" class="form-control" style="font-size: 1.1em;" name="check_url_sklad"> 
+                <textarea style="font-size: 0.9em; color: rgb(2, 44, 85);" class="form-control" id="result_connect_sklad" rows="8" ></textarea>
+              </div>        
+              
             </div>
+
           </div>
         </div>
 

@@ -184,7 +184,57 @@ export class MysqlClient implements DbClient{
     }
 
 
+    async resetStatusLoginSklad() {
+        const connection = await this.pool!.getConnection();
+        try {
+            if (connection) {
+                await connection.query(`UPDATE ${Table.LoginPassword} SET status='OFF';`);  
+                await connection.commit();
+            }
 
+        } catch (e) { console.log('Error in MySqlAgent->resetStatusLoginSklad()->catch', e) } 
+        finally {
+            connection.release();
+        }
+    }
+
+
+    async putLoginSklad(putid: string): Promise<boolean> {
+        const connection = await this.pool!.getConnection();
+        try {
+            if (connection) {
+                const [_res, _] = await connection.query(`UPDATE ${Table.LoginPassword} SET status='${StatusSelectLogin.SELECT}' WHERE id=${putid};`); 
+                await connection.commit(); 
+                const res = _res as ResultSetHeader;
+                if (res.affectedRows > 0)
+                    return true; 
+            }
+
+        } catch (e) { console.log('Error in MySqlAgent->putLoginSklad()->catch', e) } 
+        finally {
+            connection.release();
+        }
+        return false;
+    }
+
+
+    async deleteLoginSklad(delId: string):  Promise<boolean> {
+        const connection = await this.pool!.getConnection();
+        try {
+            if (connection) {
+                const [_res, _] = await connection.query(`DELETE FROM ${Table.LoginPassword} WHERE id=${delId};`); 
+                await connection.commit(); 
+                const res = _res as ResultSetHeader;
+                if (res.affectedRows > 0)
+                    return true; 
+            }
+
+        } catch (e) { console.log('Error in MySqlAgent->deleteLoginSklad()->catch', e) } 
+        finally {
+            connection.release();
+        }
+        return false;
+    }
 
 
 

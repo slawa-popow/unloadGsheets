@@ -103,8 +103,9 @@ body {
 .form-add-user-area {
     min-width: 50%;
     padding: 15px 4px;
-    border: 1px solid rgb(155, 155, 155);
-    background-color: gainsboro;
+    background: radial-gradient(343px at 46.3% 47.5%, rgb(242, 242, 242) 0%, rgb(241, 241, 241) 72.9%);
+    border: 1px solid rgb(222, 222, 222);
+    border-radius: 8px;
 }
 
 .form-add-user-area .input-field {
@@ -120,11 +121,25 @@ body {
 /* форма логин/пароль МойСклад */
 .login-sklad-form {
     padding: 15px;
-    background-color: aliceblue;
-    border: 1px solid rgb(190, 240, 255);
+    background: radial-gradient(343px at 46.3% 47.5%, rgb(242, 242, 242) 0%, rgb(241, 241, 241) 72.9%);
+    border: 1px solid rgb(222, 222, 222);
     border-radius: 8px;
 }
 
 .login-sklad-form input {
     margin-bottom: 15px;
+}
+
+/* status operation <p> */
+
+.status-operation-success {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: rgb(15, 168, 66);
+}
+
+.status-operation-error {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: rgb(215, 25, 12);
 }

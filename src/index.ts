@@ -12,6 +12,7 @@ import { Db } from './database/db';
 import passport from 'passport';
 import { Gprofile } from './types/gauth/Gprofile';
 import { PassedRequestEncryptLogPass } from './types/dbTypes/AddLogPass';
+import { MoySklad } from './sklad/MoySklad';
 
 export const MODE_DEV = true;
 
@@ -32,6 +33,7 @@ dotenv.config();
 
 export const mysqlc = new MysqlClient();
 export const db = new Db(mysqlc);
+export const sklad = new MoySklad(db);
 export const app = express();
 
 const secret = process.env.SECRET || '123';
@@ -46,7 +48,7 @@ app.use(session({
   store: mysqlc.sessionStore,
   saveUninitialized: false,
   resave: false,
-  cookie: {maxAge: 1*24*60*60*1000, secure: false }
+  cookie: {maxAge: 1*24*60*60*1000, secure: false, httpOnly: true }
 }));
 
 const GoogleStrategy = require('passport-google-oauth2').Strategy;

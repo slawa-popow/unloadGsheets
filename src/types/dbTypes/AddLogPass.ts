@@ -40,3 +40,4 @@ export type ReturnToFrontDecryptLogins = {
     login: string;
     status: string;
 }
+

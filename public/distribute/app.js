@@ -19,14 +19,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.listenerDeleteUser = void 0;
+exports.listenerDeleteUser = exports.getStatusOperation = void 0;
 const UsersSetting_1 = __webpack_require__(/*! ./src/settings/admins/UsersSetting */ "./public/src/settings/admins/UsersSetting.ts");
 const SkladSetting_1 = __webpack_require__(/*! ./src/settings/mysklad/SkladSetting */ "./public/src/settings/mysklad/SkladSetting.ts");
+const statusOperation = document.getElementById('select-loginsklad-status-operation');
+statusOperation.textContent = '';
+const getStatusOperation = (p, text, flag) => {
+    if (flag) {
+        p.classList.remove('status-operation-error');
+        p.classList.add('status-operation-success');
+        p.textContent = 'ok! ' + text;
+    }
+    else {
+        p.classList.remove('status-operation-success');
+        p.classList.add('status-operation-error');
+        p.textContent = 'Ошибка! ';
+    }
+};
+exports.getStatusOperation = getStatusOperation;
 // ------------------------ пользователи ------------------------------------------------
 const tableContainer = document.getElementById('table-users-content');
 const table = document.getElementById('table-admins');
 const formAddUser = document.getElementById('add-adimin-form');
 const sendButtonAddUser = document.getElementById('add-user-button');
+const activityTextArea = document.getElementById('users-activity');
+activityTextArea.scrollTop = activityTextArea.scrollHeight;
 // ----------------------------------------------------------------------------------------
 // ----------------------- мойсклад -------------------------------------------------------
 // форма добавления логина/пароля
@@ -36,6 +53,10 @@ const formSelectLogPass = document.getElementById('select-login-sklad-form');
 const addButtonLogPass = document.getElementById('add-login-password');
 const selectLoginList = document.getElementById('select_login');
 const selectLoginButton = document.getElementById('select-login-sklad-button');
+const deleteLoginButton = document.getElementById('delete-login-sklad-button');
+const checkLoginButton = document.getElementById('check-login-sklad-button');
+const url = document.getElementById('check_connect_sklad');
+url.value = 'https://api.moysklad.ru/api/remap/1.2/entity/product/metadata';
 // -----------------------------------------------------------------------------------------
 // ---------------- страницы вкладок настроек ----------------------------------------------
 const usersSetting = new UsersSetting_1.UsersSetting();
@@ -79,8 +100,47 @@ table.addEventListener('click', exports.listenerDeleteUser);
  */
 addButtonLogPass.addEventListener('click', (e) => __awaiter(void 0, void 0, void 0, function* () {
     e.preventDefault();
-    const response = yield skladSetting.addLogPass(formAddLogPass);
-    console.log('resp add logpass: ', response);
+    const decryptLogins = yield skladSetting.addLogPass(formAddLogPass);
+    skladSetting.rebuildSelectList(selectLoginList, decryptLogins);
+}));
+/**
+ * выбор рабочего логина
+ */
+selectLoginButton.addEventListener('click', (e) => __awaiter(void 0, void 0, void 0, function* () {
+    e.preventDefault();
+    statusOperation.textContent = '';
+    const formData = new FormData(formSelectLogPass);
+    const sendData = Object.fromEntries(formData);
+    const resp = yield skladSetting.selectLoginSklad(sendData);
+    (0, exports.getStatusOperation)(statusOperation, '', (resp.status));
+}));
+/**
+ * удалить логин/пароль
+ */
+deleteLoginButton.addEventListener('click', (e) => __awaiter(void 0, void 0, void 0, function* () {
+    e.preventDefault();
+    statusOperation.textContent = '';
+    const formData = new FormData(formSelectLogPass);
+    const sendData = Object.fromEntries(formData);
+    const resp = yield skladSetting.deleteLoginSklad(sendData);
+    skladSetting.rebuildSelectList(selectLoginList, resp);
+    (0, exports.getStatusOperation)(statusOperation, 'удалено', (resp.length > 0));
+}));
+/**
+ * проверка подключения к Мойсклад
+ */
+checkLoginButton.addEventListener('click', (e) => __awaiter(void 0, void 0, void 0, function* () {
+    e.preventDefault();
+    const spiner = document.getElementById('load-data-from-sklad');
+    const textarea = document.getElementById('result_connect_sklad');
+    textarea.value = '';
+    spiner.classList.add('spinner-border', 'text-success', 'spinner-border-sm');
+    const resultConnect = yield skladSetting.checkConnectSklad(url.value);
+    let status = (resultConnect.status &&
+        ((+resultConnect.status >= 200) && (+resultConnect.status < 300)) ? `статус: ${resultConnect.status} УСПЕШНО\n\n` :
+        `статус: ${resultConnect.status}  ОШИБКА\n\n`);
+    textarea.value = status += JSON.stringify(resultConnect.data);
+    spiner.classList.remove('spinner-border', 'text-success', 'spinner-border-sm');
 }));
 
 
@@ -296,6 +356,94 @@ class SkladSetting extends BaseSettings_1.BaseSettings {
             catch (err) {
                 console.log('------- *** --------', '\n', err, '\n', '------- *** --------');
             }
+            return [];
+        });
+    }
+    rebuildSelectList(selectLoginList, decryptLogins) {
+        this.clearContainer(selectLoginList);
+        const reverseList = [];
+        for (let val of decryptLogins) {
+            if (val.login !== '') {
+                const option = document.createElement('option');
+                option.setAttribute('value', '' + val.id);
+                option.textContent = val.login;
+                reverseList.unshift(option);
+            }
+        }
+        reverseList.forEach(opt => {
+            selectLoginList.appendChild(opt);
+        });
+    }
+    selectLoginSklad(sendData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield fetch(`/selectLogin/${sendData.select_login}`, {
+                    method: "PUT",
+                    mode: "cors",
+                    cache: "no-cache",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    redirect: "follow",
+                    referrerPolicy: "no-referrer",
+                    body: JSON.stringify(sendData),
+                });
+                const resp = yield response.json();
+                return resp;
+            }
+            catch (err) {
+                console.log('------- *** --------', '\n', err, '\n', '------- *** --------');
+            }
+            return { status: false };
+        });
+    }
+    deleteLoginSklad(sendData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield fetch(`/deleteLogin/${sendData.select_login}`, {
+                    method: "DELETE",
+                    mode: "cors",
+                    cache: "no-cache",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    redirect: "follow",
+                    referrerPolicy: "no-referrer",
+                    body: JSON.stringify(sendData),
+                });
+                const resp = yield response.json();
+                return resp;
+            }
+            catch (err) {
+                console.log('------- *** --------', '\n', err, '\n', '------- *** --------');
+            }
+            return [];
+        });
+    }
+    checkConnectSklad(url) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield fetch('/checkConnectSklad', {
+                    method: "POST",
+                    mode: "cors",
+                    cache: "no-cache",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    redirect: "follow",
+                    referrerPolicy: "no-referrer",
+                    body: JSON.stringify({ checkUrl: url }),
+                });
+                const resp = yield response.json();
+                return resp;
+            }
+            catch (err) {
+                console.log('------- *** --------', '\n', err, '\n', '------- *** --------');
+            }
+            return { status: "error", data: "error" };
         });
     }
 }

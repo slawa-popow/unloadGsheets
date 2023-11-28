@@ -5,6 +5,7 @@ import passport from "passport";
 import { isLoggin } from "./middlewares/isLoggin";
 import { emaiVld, nameVld } from "./middlewares/validate";
 import { encryptLogPass } from "./middlewares/encryptLogPass";
+import { validAuth } from "./middlewares/validAuth";
 
 
 const mainRouter = Router(); 
@@ -21,7 +22,10 @@ mainRouter.get('/google/callback', passport.authenticate(
 });
 
 mainRouter.post('/addUser', nameVld(), emaiVld(), mainController.addUser);
-mainRouter.delete('/deleteUser/:delId', mainController.deleteUser);
+mainRouter.delete('/deleteUser/:delId', validAuth('Удалить пользователя. '), mainController.deleteUser);
 mainRouter.get('/logout', mainController.logout);
-mainRouter.post('/addLoginPassword', encryptLogPass, mainController.addLoginPassword);
+mainRouter.post('/addLoginPassword', validAuth('Добавление пользователя '), encryptLogPass, mainController.addLoginPassword);
+mainRouter.put('/selectLogin/:putLoginId',validAuth('Изменение логина подключений к МойСклад '), mainController.selectLoginSklad);
+mainRouter.delete('/deleteLogin/:deleteLoginId', validAuth('Удаление логина подключений к МойСклад '), mainController.deleteLogin);
+mainRouter.post('/checkConnectSklad', validAuth('Проверка Подключений к МойСклад '), mainController.checkConnectSklad);
 export { mainRouter } 

@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { Gprofile } from '../types/gauth/Gprofile';
-import { db } from '..';
+import { db, sklad } from '..';
 import { VerifyUsers } from '../types/gauth/VerifyUsers';
 import { myValidationResult } from '../customErrors/customErrField';
 import { AddUserForm } from '../types/dbTypes/AddUserForm';
 import { PassedRequestEncryptLogPass } from '../types/dbTypes/AddLogPass';
+import { DeleteIdLogin, PutIdLogin } from '../types/dbTypes/executeLoginSklad';
 
 class MainController {
 
@@ -83,6 +84,33 @@ class MainController {
             return response.status(200).json(logins);
         }
         return response.status(400).json({ errorsMessages: ['Ошибка добавления логин/пароль']})
+    }
+
+
+    async selectLoginSklad(request: Request, response: Response) {
+        const putid = request.params as PutIdLogin;
+        const resultPutLogin = await db.putLoginSklad(putid.putLoginId);
+        if (resultPutLogin)
+            return response.status(200).json({status: true});
+        return response.status(400).json({status: false});
+    }
+
+
+    async deleteLogin(request: Request, response: Response) {
+        const delId = request.params as DeleteIdLogin;
+        const resultDeleteLogin = await db.deleteLoginSklad(delId.deleteLoginId);
+        if (resultDeleteLogin) {
+            const logins = await db.getLogins();
+            return response.status(200).json(logins);
+        }
+        return response.status(400).json([]);
+    }
+
+
+    async checkConnectSklad(request: Request, response: Response) {
+        const url = request.body as {checkUrl: string};
+        const resultCheckConnect = await sklad.checkConnect((url && url.checkUrl) ? url.checkUrl : '');
+        return response.status(200).json(resultCheckConnect);
     }
 
 }
