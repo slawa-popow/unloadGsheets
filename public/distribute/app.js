@@ -23,7 +23,7 @@ exports.listenerDeleteUser = exports.getStatusOperation = void 0;
 const UsersSetting_1 = __webpack_require__(/*! ./src/settings/admins/UsersSetting */ "./public/src/settings/admins/UsersSetting.ts");
 const SkladSetting_1 = __webpack_require__(/*! ./src/settings/mysklad/SkladSetting */ "./public/src/settings/mysklad/SkladSetting.ts");
 /**
- * -------------------------------
+ * ----------- do refactor --------------------
  */
 const statusOperation = document.getElementById('select-loginsklad-status-operation');
 statusOperation.textContent = '';
