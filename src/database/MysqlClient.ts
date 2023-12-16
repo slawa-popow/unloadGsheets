@@ -8,6 +8,7 @@ import { VerifyUsers } from '../types/gauth/VerifyUsers';
 import { AddUserForm } from '../types/dbTypes/AddUserForm';
 import { UserActivity } from '../types/dbTypes/UserActivity';
 import { PassedRequestEncryptLogPass, StatusSelectLogin, TableLoginPassword } from '../types/dbTypes/AddLogPass';
+import { GserviceCredential } from '../types/gauth/GserviceCredential';
 // import { MODE_DEV } from '..';
 const MySQLStore = require('express-mysql-session')(session);
 
@@ -17,6 +18,7 @@ export enum Table {
     VerifyUsers = 'verify_users',
     logUserActivity = 'user_activity',
     LoginPassword = 'log_passw',
+    Gcredential = 'connect_gsheets',
 };
 
 export class MysqlClient implements DbClient{
@@ -234,6 +236,23 @@ export class MysqlClient implements DbClient{
             connection.release();
         }
         return false;
+    }
+
+
+    async getGoogleServiceAccountCredential(id: string): Promise<GserviceCredential[]> {
+        const connection = await this.pool!.getConnection();
+        try {
+            if (connection) {
+                const [_creds, __] = await connection.query(`SELECT * FROM ${Table.Gcredential} WHERE id=${id};`);
+                const creds = _creds as GserviceCredential[];
+                return creds;
+            }
+
+        } catch (e) { console.log('Error in MySqlAgent->getGoogleServiceAccountCredential()->catch', e) } 
+        finally {
+            connection.release();
+        }
+        return [];
     }
 
 

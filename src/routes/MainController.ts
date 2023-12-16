@@ -6,6 +6,7 @@ import { myValidationResult } from '../customErrors/customErrField';
 import { AddUserForm } from '../types/dbTypes/AddUserForm';
 import { PassedRequestEncryptLogPass } from '../types/dbTypes/AddLogPass';
 import { DeleteIdLogin, PutIdLogin } from '../types/dbTypes/executeLoginSklad';
+import { Gsheets } from '../gsheets/Gsheets';
 
 class MainController {
 
@@ -110,6 +111,10 @@ class MainController {
     async checkConnectSklad(request: Request, response: Response) {
         const url = request.body as {checkUrl: string};
         const resultCheckConnect = await sklad.checkConnect((url && url.checkUrl) ? url.checkUrl : '');
+
+        const gsheets = new Gsheets();
+        await gsheets.gdoc();
+
         return response.status(200).json(resultCheckConnect);
     }
 

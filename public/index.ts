@@ -3,6 +3,10 @@ import { SkladSetting } from "./src/settings/mysklad/SkladSetting";
 import { FormAddUsersData } from "./src/types/UsersSettingTypes/FormAddUsersData";
 
 
+/**
+ * ----------- do refactor --------------------
+ */
+
 const statusOperation = document.getElementById('select-loginsklad-status-operation') as HTMLParagraphElement;
 statusOperation.textContent = '';
 

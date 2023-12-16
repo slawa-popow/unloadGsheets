@@ -6,6 +6,7 @@ import { Gprofile } from "../types/gauth/Gprofile";
 import dotenv from 'dotenv';
 import { VerifyUsers } from "../types/gauth/VerifyUsers";
 import { decryptLoginPassword } from "../routes/middlewares/encryptLogPass";
+import { GserviceCredential } from "../types/gauth/GserviceCredential";
  
 // 
 dotenv.config();
@@ -107,6 +108,14 @@ dotenv.config();
             }
         }
         return auth;
+    }
+
+
+    async getGoogleServiceAccountCredential(id = '1'): Promise<GserviceCredential[]> {
+        if (this.client) {
+            return this.client.getGoogleServiceAccountCredential(id);
+        }
+        return [];
     }
     
 }
