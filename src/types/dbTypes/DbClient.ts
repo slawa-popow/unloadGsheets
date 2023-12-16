@@ -1,3 +1,4 @@
+import { GserviceCredential } from "../gauth/GserviceCredential";
 import { VerifyUsers } from "../gauth/VerifyUsers";
 import { PassedRequestEncryptLogPass, TableLoginPassword } from "./AddLogPass";
 import { AddUserForm } from "./AddUserForm";
@@ -15,5 +16,6 @@ export interface DbClient {
     putLoginSklad(putid: string): Promise<boolean>;
     resetStatusLoginSklad(): Promise<void>;
     deleteLoginSklad(delId: string):  Promise<boolean>;
+    getGoogleServiceAccountCredential(id: string): Promise<GserviceCredential[]>;
 
 }

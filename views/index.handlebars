@@ -170,9 +170,41 @@
 
   </div>
 
-{{!-- ---------------------------------------------------------------------- --}}
+{{!-- ---------------------------- GOOGLE SHEETS ------------------------------------------ --}}
 
   <div class="tab-pane fade" id="nav-gsheets" role="tabpanel" aria-labelledby="nav-gsheets-tab" tabindex="0">
+    <h5 class="title-setting">настройка  подключения к google таблицам:</h5>
+    <hr>
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-sm-6">
+          <h6>Настройки подключения:</h6>
+          <div class="login-sklad-form">
+            <form id="setting-gsheets-form" >
+              <label for="service_account_email">Service account email:</label>
+              <input id="service_account_email" type="text" class="form-control" name="service_account_email"> 
+
+              <label for="private_key">Service account private key:</label>
+              <input id="private_key" type="password" class="form-control" name="private_key">
+
+              <label for="id_gsheet">ID google таблицы:</label>
+              <input id="id_gsheet" type="text" class="form-control" name="id_gsheet" >
+
+              <br>
+              <button id="save-setting-credential-gsheet" type="button" class="btn btn-success">сохранить</button>
+              
+            </form>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div style="font-size: 1em; color: rgb(123, 123, 123); font-weight: normal;">
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsa aut harum maxime vitae, distinctio error sed consequuntur odio, officia repudiandae nobis at porro facere dignissimos aspernatur sapiente dolorum delectus asperiores.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
 
   </div>
 
